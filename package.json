@@ -1,0 +1,15 @@
+{
+  "name": "evernote-mcp-server",
+  "version": "0.0.1",
+  "main": "src/index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "yasuhiroki",
+  "license": "MIT",
+  "description": "",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.11.1",
+    "evernote": "^2.0.5"
+  }
+}
