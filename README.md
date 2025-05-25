@@ -12,14 +12,6 @@ Provides the following MCP tools features:
 - `create_evernote_note`: Create a note _(not implemented yet)_
 - `update_evernote_note`: Update content of a note _(not implemented yet)_
 
-# Installation
-
-```bash
-git clone https://github.com/yasuhiroki/evernote-mcp-server.git
-cd evernote-mcp-server
-npm install
-```
-
 # Configuration
 
 ## Prerequisite
@@ -35,11 +27,12 @@ for example, create `mcp.json` in the root directory of this repository.
   "evernote": {
     "command": "npx",
     "args": [
-        "node",
-        "/path/to/evernote-mcp/src/index.mjs",
+        "-y",
+        "github:yasuhiroki/evernote-mcp-server",
     ],
     "env": {
       "EVERNOTE_API_TOKEN": "YOUR EVERNOTE API TOKEN"
     }
   }
 }
+```
