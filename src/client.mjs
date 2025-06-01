@@ -37,6 +37,37 @@ class Client {
       throw error;
     }
   }
+
+  async createNote({ title, content, notebookGuid }) {
+    try {
+      const note = {
+        title,
+        content,
+      };
+      if (notebookGuid) {
+        note.notebookGuid = notebookGuid;
+      }
+      const createdNote = await this.noteStore.createNote(note);
+      return { guid: createdNote.guid, title: createdNote.title };
+    } catch (error) {
+      console.error("Error creating note: ", error);
+      throw error;
+    }
+  }
+
+  async updateNote({ guid, title, content, notebookGuid }) {
+    try {
+      const note = { guid };
+      if (title) note.title = title;
+      if (content) note.content = content;
+      if (notebookGuid) note.notebookGuid = notebookGuid;
+      const updatedNote = await this.noteStore.updateNote(note);
+      return { guid: updatedNote.guid, title: updatedNote.title };
+    } catch (error) {
+      console.error("Error updating note: ", error);
+      throw error;
+    }
+  }
 }
 
 export default Client;

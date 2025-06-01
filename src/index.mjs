@@ -64,5 +64,48 @@ server.tool(
   }
 );
 
+server.tool(
+  "create_evernote_note",
+  "Create a new evernote note."
+    + "The content is in ENML (Evernote Markup Language)."
+    + "ENML is formally defined in http://xml.evernote.com/pub/enml2.dtd.",
+  {
+    title: z.string(),
+    content: z.string(),
+    notebookGuid: z.string().optional(),
+  },
+  async ({ title, content, notebookGuid }) => {
+    const note = await client.createNote({ title, content, notebookGuid });
+    return {
+      content: [{
+        type: "text",
+        text: `Created note: title: ${note.title}, guid: ${note.guid}`,
+      }]
+    };
+  }
+);
+
+server.tool(
+  "update_evernote_note",
+  "Update an existing evernote note."
+    + "The content is in ENML (Evernote Markup Language)."
+    + "ENML is formally defined in http://xml.evernote.com/pub/enml2.dtd.",
+  {
+    guid: z.string(),
+    title: z.string().optional(),
+    content: z.string().optional(),
+    notebookGuid: z.string().optional(),
+  },
+  async ({ guid, title, content, notebookGuid }) => {
+    const note = await client.updateNote({ guid, title, content, notebookGuid });
+    return {
+      content: [{
+        type: "text",
+        text: `Updated note: title: ${note.title}, guid: ${note.guid}`,
+      }]
+    };
+  }
+);
+
 const transport = new StdioServerTransport();
 await server.connect(transport);
