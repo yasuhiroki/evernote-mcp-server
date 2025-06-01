@@ -9,8 +9,8 @@ Provides the following MCP tools features:
 - `list_evernote_notebooks`: List all notebooks
 - `list_evernote_notes`: List all notes in a notebook
 - `read_evernote_note`: Read a note content
-- `create_evernote_note`: Create a note _(not implemented yet)_
-- `update_evernote_note`: Update content of a note _(not implemented yet)_
+- `create_evernote_note`: Create a note
+- `update_evernote_note`: Update content of a note
 
 # Configuration
 
