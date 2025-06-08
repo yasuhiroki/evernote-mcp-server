@@ -29,21 +29,48 @@ server.tool(
 
 server.tool(
   "list_evernote_notes",
-  "List evernote notes title and guid",
+  "List evernote notes title and guid."
+    + "You can filter notes by following parameters:"
+    + "order: The NoteSortOrder value indicating what criterion should be used to sort the results of the filter."
+    + "ascending: If true, the results will be ascending in the requested sort order. If false, the results will be descending."
+    + "words: A search query string that will filter the set of notes to be returned. Accepts the full search grammar documented in the Evernote API Overview."
+    + "notebookGuid: The Guid of the notebook that must contain the notes."
+    + "tagGuids: The list of tags (by GUID) that must be present on the notes."
+    + "timeZone: The zone ID for the user, which will be used to interpret any dates or times in the queries that do not include their desired zone information."
+    + "inactive: If true, then only notes that are not active (i.e. notes in the Trash) will be returned. Otherwise, only active notes will be returned. There is no way to find both active and inactive notes in a single query."
+    + "emphasized: A search query string that may or may not influence the notes to be returned, both in terms of coverage as well as of order. Think of it as a wish list, not a requirement. Accepts the full search grammar documented in the Evernote API Overview."
+    + "includeAllReadableNotebooks: If true, then the search will include all business notebooks that are readable by the user. A business authentication token must be supplied for this option to take effect when calling search APIs."
+    + "offset: The offset of the first note to return. This is useful for paging through results."
+    + "maxNotes: The maximum number of notes to return. This is useful for limiting the number of results returned.",
   {
     notebookGuid: z.string().optional(),
+    order: z.number().optional(),
+    ascending: z.boolean().optional(),
+    words: z.string().optional(),
+    tagGuids: z.array(z.string()).optional(),
+    timeZone: z.string().optional(),
+    inactive: z.boolean().optional(),
+    emphasized: z.string().optional(),
+    includeAllReadableNotebooks: z.boolean().optional(),
+    offset: z.number().optional(),
+    maxNotes: z.number().optional(),
+    resultSpec: z.object({
+      includeTitle: z.boolean().optional(),
+      includeContentLength: z.boolean().optional(),
+      includeCreated: z.boolean().optional(),
+      includeUpdated: z.boolean().optional(),
+      includeDeleted: z.boolean().optional(),
+      includeNotebookGuid: z.boolean().optional(),
+    }).optional()
   },
-  async ({ notebookGuid }) => {
-    const notes = await client.listNotes(notebookGuid);
+  async (input) => {
+    const notes = await client.listNotes(input);
     return {
       content: notes.map(note => ({
         type: "text",
         text: `title: ${note.title}, guid: ${note.guid}`,
       }))
     };
-  },
-  {
-    inputSchema: z.object({ notebookGuid: z.string().optional() })
   }
 );
 

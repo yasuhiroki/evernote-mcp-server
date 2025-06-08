@@ -17,10 +17,11 @@ class Client {
     }
   }
 
-  async listNotes(notebookGuid) {
+  async listNotes(filter = {}) {
     try {
-      const filter = notebookGuid ? { notebookGuid } : {};
-      const notesMetadata = await this.noteStore.findNotesMetadata(filter, 0, 100, { includeTitle: true });
+      const offset = filter.offset || 0;
+      const maxNotes = filter.maxNotes || 100;
+      const notesMetadata = await this.noteStore.findNotesMetadata(filter, offset, maxNotes, { includeTitle: true });
       return notesMetadata.notes.map(note => ({ guid: note.guid, title: note.title }));
     } catch (error) {
       console.error("Error listing notes:", error);
