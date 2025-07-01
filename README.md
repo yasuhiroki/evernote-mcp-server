@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/yasuhiroki-evernote-mcp-server-badge.png)](https://mseep.ai/app/yasuhiroki-evernote-mcp-server)
+
 # evernote-mcp-server
 
 MCP Server for [Evernote](https://evernote.com) (unofficial)
