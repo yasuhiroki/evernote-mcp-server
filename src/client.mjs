@@ -39,6 +39,19 @@ class Client {
     }
   }
 
+  async readNoteContents(guids) {
+    const results = [];
+    for (const guid of guids) {
+      try {
+        const content = await this.getNoteContent(guid);
+        results.push({ guid, content });
+      } catch (error) {
+        results.push({ guid, error: error.message });
+      }
+    }
+    return results;
+  }
+
   async createNote({ title, content, notebookGuid }) {
     try {
       const note = {

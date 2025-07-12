@@ -92,6 +92,23 @@ server.tool(
 );
 
 server.tool(
+  "read_evernote_notes",
+  "Read multiple evernote notes content by an array of guids.",
+  {
+    guids: z.array(z.string()),
+  },
+  async ({ guids }) => {
+    const results = await client.readNoteContents(guids);
+    return {
+      content: results.map(result => ({
+        type: "text",
+        text: result.error ? `guid: ${result.guid}, error: ${result.error}` : `guid: ${result.guid}, content: ${result.content}`,
+      }))
+    };
+  }
+);
+
+server.tool(
   "create_evernote_note",
   "Create a new evernote note."
     + "The content is in ENML (Evernote Markup Language)."
