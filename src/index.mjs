@@ -75,6 +75,49 @@ server.tool(
 );
 
 server.tool(
+  "count_evernote_notes",
+  "Count notes matching a filter.",
+  {
+    notebookGuid: z.string().optional(),
+    order: z.number().optional(),
+    words: z.string().optional(),
+    tagGuids: z.array(z.string()).optional(),
+    timeZone: z.string().optional(),
+    inactive: z.boolean().optional(),
+    emphasized: z.string().optional(),
+    includeAllReadableNotebooks: z.boolean().optional(),
+    withTrash: z.boolean().optional(),
+  },
+  async (input) => {
+    const counts = await client.countNotes(input);
+    const lines = [];
+    let total = 0;
+    if (Object.keys(counts.notebookCounts).length > 0) {
+      lines.push('notebookCounts:');
+      for (const [k,v] of Object.entries(counts.notebookCounts)) {
+        lines.push(`- ${k}: ${v}`);
+        total += v;
+      }
+    }
+    if (Object.keys(counts.tagCounts).length > 0) {
+      lines.push('tagCounts:');
+      for (const [k,v] of Object.entries(counts.tagCounts)) {
+        lines.push(`- ${k}: ${v}`);
+        total += v;
+      }
+    }
+    if (counts.trashCount > 0) {
+      lines.push(`trashCount: ${counts.trashCount}`);
+      total += counts.trashCount;
+    }
+    lines.push(`totalNotes: ${total}`);
+    return {
+      content: lines.map(line => ({ type: 'text', text: line }))
+    };
+  }
+);
+
+server.tool(
   "read_evernote_note",
   "Read evernote note content",
   {

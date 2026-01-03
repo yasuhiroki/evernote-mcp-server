@@ -82,6 +82,21 @@ class Client {
       throw error;
     }
   }
+
+  async countNotes(filter = {}) {
+    try {
+      const withTrash = filter.withTrash || false;
+      const counts = await this.noteStore.findNoteCounts(filter, withTrash);
+      return {
+        notebookCounts: counts.notebookCounts ?? {},
+        tagCounts: counts.tagCounts ?? {},
+        trashCount: counts.trashCount ?? 0,
+      }
+    } catch (error) {
+      console.error("Error counting notes:", error);
+      throw error;
+    }
+  }
 }
 
 export default Client;
