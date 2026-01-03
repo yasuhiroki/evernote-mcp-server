@@ -12,7 +12,7 @@
   "license": "MIT",
   "description": "",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.11.1",
+    "@modelcontextprotocol/sdk": "^1.25.1",
     "evernote": "^2.0.5"
   }
 }
