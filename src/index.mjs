@@ -16,15 +16,31 @@ server.registerTool(
   "list_evernote_notebooks",
   {
     description:"List evernote notebooks title and guid",
-    inputSchema: {}
+    inputSchema: {},
+    outputSchema: z.object(
+      {
+        notebooks: z.array(
+          z.object(
+            {
+              guid: z.string(),
+              title: z.string()
+            }
+          )
+        )
+      }
+    )
   },
   async () => {
     const notebooks = await client.listNotebooks();
+    const structuredContent = {
+      notebooks: notebooks.map((n) => ( { guid: n.guid, title: n.name } ))
+    };
     return {
-      content: notebooks.map(notebook => ({
+      content: [{
         type: "text",
-        text: `title: ${notebook.name}, guid: ${notebook.guid}`,
-      }))
+        text: JSON.stringify(structuredContent),
+      }],
+      structuredContent
     };
   }
 );
@@ -65,15 +81,31 @@ server.registerTool(
         includeDeleted: z.boolean().optional(),
         includeNotebookGuid: z.boolean().optional(),
       }).optional()
-    }
+    },
+    outputSchema: z.object(
+      {
+        notes: z.array(
+          z.object(
+            {
+              guid: z.string(),
+              title: z.string()
+            }
+          )
+        )
+      }
+    )
   },
   async (input) => {
     const notes = await client.listNotes(input);
+    const structuredContent = {
+      notes: notes.map((n) => ( { guid: n.guid, title: n.title } ))
+    };
     return {
-      content: notes.map(note => ({
+      content: [{
         type: "text",
-        text: `title: ${note.title}, guid: ${note.guid}`,
-      }))
+        text: JSON.stringify(structuredContent),
+      }],
+      structuredContent
     };
   }
 );
