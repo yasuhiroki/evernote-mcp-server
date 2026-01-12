@@ -30,7 +30,7 @@ for example, create `mcp.json` in the root directory of this repository.
     "command": "npx",
     "args": [
         "-y",
-        "github:yasuhiroki/evernote-mcp-server",
+        "github:yasuhiroki/evernote-mcp-server"
     ],
     "env": {
       "EVERNOTE_API_TOKEN": "YOUR EVERNOTE API TOKEN"
