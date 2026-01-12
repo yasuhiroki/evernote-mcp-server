@@ -168,7 +168,7 @@ server.registerTool(
     return {
       content: [{
         type: "text",
-        text: content,
+        text: `# ${guid} note content\n\n${content}`,
       }]
     };
   }
@@ -187,7 +187,9 @@ server.registerTool(
     return {
       content: results.map(result => ({
         type: "text",
-        text: result.error ? `guid: ${result.guid}, error: ${result.error}` : `guid: ${result.guid}, content: ${result.content}`,
+        text: result.error ?
+        `# ${result.guid} note error\n\n${result.error}` :
+        `# ${result.guid} note content\n\n${result.content}`,
       }))
     };
   }
