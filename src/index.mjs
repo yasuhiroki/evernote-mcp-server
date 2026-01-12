@@ -9,7 +9,7 @@ const client = new Client();
 
 const server = new McpServer({
   name: "Evernote",
-  version: "0.0.1"
+  version: "0.0.3"
 });
 
 server.registerTool(
